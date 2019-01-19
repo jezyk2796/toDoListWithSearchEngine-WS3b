@@ -3,7 +3,23 @@ const createInput = document.querySelector('.create');
 const searchInput = document.querySelector('.search');
 const addBtn = document.querySelector('form button');
 const list = document.querySelector('ul');
+const taskNumber = document.querySelector('h1 span');
 const tasksArr = [];
+
+const renderList = () => {
+    list.textContent = "";
+    tasksArr.forEach((task, index) => {
+        task.dataset.key = index;
+        list.appendChild(task);
+    });
+    taskNumber.textContent = tasksArr.length;
+}
+
+const removeTask = (e) => {
+    const index = e.target.parentNode.dataset.key;
+    tasksArr.splice(index, 1);
+    renderList();
+}
 
 const createTask = (e) => {
     e.preventDefault();
@@ -14,13 +30,10 @@ const createTask = (e) => {
     newLi.innerHTML = `${title} <button>Usuń</button`;
 
     tasksArr.push(newLi);
-    list.textContent = "";
-    tasksArr.forEach((task, index) => {
-        task.dataset.key = index;
-        list.appendChild(task);
-    });
+    renderList();
 
     createInput.value = "";
+    newLi.querySelector('button').addEventListener('click', removeTask);
 }
 
 form.addEventListener('submit', createTask);
