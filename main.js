@@ -6,6 +6,14 @@ const list = document.querySelector('ul');
 const taskNumber = document.querySelector('h1 span');
 const tasksArr = [];
 
+const searchTasks = (e) => {
+    const searchText = e.target.value.toLowerCase();
+    let searchArr = tasksArr;
+    searchArr = searchArr.filter(task => task.textContent.toLowerCase().includes(searchText));
+    list.textContent = "";
+    searchArr.forEach(task => list.appendChild(task));
+}
+
 const renderList = () => {
     list.textContent = "";
     tasksArr.forEach((task, index) => {
@@ -37,3 +45,4 @@ const createTask = (e) => {
 }
 
 form.addEventListener('submit', createTask);
+searchInput.addEventListener('input', searchTasks);
